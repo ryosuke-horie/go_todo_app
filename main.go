@@ -43,6 +43,6 @@ func run(ctx context.Context) error {
 
 func main() {
 	if err := run(context.Background()); err != nil {
-		fmt.Fprintf("failed to terminate server: %v", err)
+		log.Printf("failed to terminate server: %v", err)
 	}
 }
