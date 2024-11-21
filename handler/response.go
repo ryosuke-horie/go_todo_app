@@ -12,6 +12,7 @@ type ErrResponse struct {
 	Details []string `json:"details,omitempty"`
 }
 
+// レスポンスデータをJSONに変換し、ステータスコードとセットでhttp.ResponseWriterインターフェースを満たす型に書き込む
 func RespondJSON(ctx context.Context, w http.ResponseWriter, body any, status int) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	bodyBytes, err := json.Marshal(body)
