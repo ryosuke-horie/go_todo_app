@@ -9,14 +9,14 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-// メインプロセスを実装するときに資料されるrun関数のパターン
+// メインプロセスを実装するときに使用されるrun関数のパターン
 // context.Context方の値から終了通知を待機するrun関数
 // チャネルからの終了通知があると次の順序でrun関数が終了する
 // 1. 「<-ctx.Done()」の津g期の行の*http.Server.Shutdownメソッドを呼び出す
 // 2. 別goroutineで実行していた*http.Server.ListenAndServeメソッドが終了する
 // 3. 別goroutineで実行されていた無名関数が終了する
 // 4. run関数の最後で待機していたerrgroup.Group.Waitメソッドが終了する
-// 5.
+// 5.別goroutineで実行していた無名関数(func() error )の戻り値がrun関数の戻り値になる
 func run(ctx context.Context) error {
 	s := http.Server{
 		Addr: ":18080",
