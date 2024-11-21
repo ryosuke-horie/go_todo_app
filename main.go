@@ -7,6 +7,9 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/ryosuke-horie/go_todo_app/config"
 	"golang.org/x/sync/errgroup"
@@ -21,6 +24,12 @@ import (
 // 4. run関数の最後で待機していたerrgroup.Group.Waitメソッドが終了する
 // 5.別goroutineで実行していた無名関数(func() error )の戻り値がrun関数の戻り値になる
 func run(ctx context.Context) error {
+	// os.InterruptはCtrl+Cのシグナル
+	// syscall.SIGTERMはコンテナなどでプロセスを終了するためのシグナル
+	// 受け取ったシグナルを通知するためのコンテキストを作成
+	ctx, stop := signal.NotifyContext(ctx, os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
 	cfg, err := config.New()
 	if err != nil {
 		return err
@@ -35,6 +44,9 @@ func run(ctx context.Context) error {
 	s := http.Server{
 		// (addrはnet.Listenerのアドレスを使用する)
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// コマンドラインで実験するため
+			time.Sleep(5 * time.Second)
+
 			fmt.Fprintf(w, "Hello, %s", r.URL.Path[1:])
 		}),
 	}
