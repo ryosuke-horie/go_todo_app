@@ -22,4 +22,4 @@ jobs:
         run: go test ./... -coverprofile=coverage.out
 
       - name: Report coverage
-        uses: k1LoW/octocov-action@v0
+        uses: k1LoW/octocov-action@v1
