@@ -11,8 +11,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-func TestRun(t *testing.T) {
-	t.Skip("リファクタリング中")
+func TestServerRun(t *testing.T) {
 	// localhost:0を指定するとnet/httpパッケージが自動的にポートを割り当てる
 	l, err := net.Listen("tcp", "localhost:0")
 	if err != nil {
@@ -23,9 +22,15 @@ func TestRun(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	eg, ctx := errgroup.WithContext(ctx)
+
+	mux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, %s", r.URL.Path[1:])
+	})
+
 	// 別goroutineでテスト対象のrun関数を実行しHTTPサーバーを起動
 	eg.Go(func() error {
-		return run(ctx)
+		s := NewServer(l, mux)
+		return s.run(ctx)
 	})
 
 	in := "message"
