@@ -23,3 +23,6 @@ go.work.sum
 
 # env file
 .env
+
+# docker開発環境の一時ファイル
+tmp
