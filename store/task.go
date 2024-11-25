@@ -9,7 +9,7 @@ import (
 // taskテーブルへの操作を実装する
 
 // 全てのタスクを取得する
-func (r *Repository) ListTask(
+func (r *Repository) ListTasks(
 	ctx context.Context, db Queryer,
 ) (entity.Tasks, error) {
 	tasks := entity.Tasks{}
