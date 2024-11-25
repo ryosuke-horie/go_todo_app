@@ -58,21 +58,20 @@ func prepareTasks(ctx context.Context, t *testing.T, con Execer) entity.Tasks {
 	return wants
 }
 
-func TestRepository_ListTask(t *testing.T) {
+func TestRepository_ListTasks(t *testing.T) {
 	ctx := context.Background()
-
-	// entity.Taskを作成するほかのテストケースと混ざると失敗する
-	// トランザクションを張ってこのケースの中だけのテーブル状態にする
-	tx, err := testutil.OpenDBForTest(t).BeginTx(ctx, nil)
-	// このテストケースが完了したらもとに戻す
+	// entity.Taskを作成する他のテストケースと混ざるとテストがフェイルする。
+	// そのため、トランザクションをはることでこのテストケースの中だけのテーブル状態にする。
+	tx, err := testutil.OpenDBForTest(t).BeginTxx(ctx, nil)
+	// このテストケースが完了したら元に戻す
 	t.Cleanup(func() { _ = tx.Rollback() })
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantUserID, wants := prepareTasks(ctx, t, tx)
+	wants := prepareTasks(ctx, t, tx)
 
 	sut := &Repository{}
-	gots, err := sut.ListTasks(ctx, tx, wantUserID)
+	gots, err := sut.ListTasks(ctx, tx)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
