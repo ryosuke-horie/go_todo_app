@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/ryosuke-horie/go_todo_app/clock"
 	"github.com/ryosuke-horie/go_todo_app/config"
