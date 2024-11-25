@@ -106,7 +106,7 @@ func TestRepository_AddTask(t *testing.T) {
 	// 期待しているSQLと期待する返り値を設定
 	mock.ExpectExec(
 		// エスケープが必要
-		`INSERT INTO task \(title, status, created, modified\) VALUES \(\?, \?, \?, \?\)`,
+		`INSERT INTO task \(title, status, created, modified\) VALUES \(\ ?, \ ?, \ ?, \ ?\)`,
 	).WithArgs(okTask.Title, okTask.Status, okTask.Created, okTask.Modified).
 		WillReturnResult(sqlmock.NewResult(wantID, 1))
 
