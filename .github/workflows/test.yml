@@ -27,10 +27,8 @@ jobs:
         uses: actions/checkout@v4
 
       - run: |
-          wget -O - https://github.com/sqldef/sqldef/releases/latest/download/mysqldef_linux_amd64.tar.gz \
-          && tar xvz
-          mysqldef -u todo -p todo -h 127.0.0.1 -P 3306 todo < ./_tools/mysql/shema.sql
-
+          go install github.com/sqldef/sqldef/cmd/mysqldef@latest
+          mysqldef -u todo -p todo -h 127.0.0.1 -P 3306 todo < ./_tools/mysql/schema.sql
       - name: Setup go
         uses: actions/setup-go@v3
         with:
