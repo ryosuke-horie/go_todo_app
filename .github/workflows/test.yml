@@ -28,7 +28,9 @@ jobs:
 
       - run: |
           go install github.com/sqldef/sqldef/cmd/mysqldef@latest
+          export PATH=$PATH:$(go env GOPATH)/bin
           mysqldef -u todo -p todo -h 127.0.0.1 -P 3306 todo < ./_tools/mysql/schema.sql
+
       - name: Setup go
         uses: actions/setup-go@v3
         with:
