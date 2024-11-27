@@ -11,8 +11,8 @@ import (
 // 他パッケージへの参照を取り除いて疎結合にするため
 // インタフェースを介して特定の型に依存させないことでモックに処理を入れ替えたテストを書きやすくするため
 
-//go:generate go run github.com/matryer/moq -out moq_test.go . ListTasksService AddTaskService RegisterUserService LoginService
-type ListTaskService interface {
+//go:generate go run github.com/matryer/moq -out moq_test.go . ListTasksService AddTaskService
+type ListTasksService interface {
 	ListTasks(ctx context.Context) (entity.Tasks, error)
 }
 
