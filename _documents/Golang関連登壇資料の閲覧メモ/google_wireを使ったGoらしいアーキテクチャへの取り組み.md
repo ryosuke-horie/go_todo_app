@@ -1,0 +1,1 @@
+# [google_wireを使ったGoらしいアーキテクチャへの取り組み](https://speakerdeck.com/budougumi0617/gocon-fukuoka-2019-summer)
