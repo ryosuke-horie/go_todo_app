@@ -9,4 +9,3 @@
 - [google_wireを使ったGoらしいアーキテクチャへの取り組み](/_documents/Golang関連登壇資料の閲覧メモ/google_wireを使ったGoらしいアーキテクチャへの取り組み.md)
 - [database/sql 入門](/_documents/Golang関連登壇資料の閲覧メモ/database_sql入門.md)
 - [今改めて読みなおしたいGo基礎情報_その1](/_documents/Golang関連登壇資料の閲覧メモ/今改めて読みなおしたいGo基礎情報_その１.md)
-- [x/tools/go/analysisで静的解析ツールを自作する](/_documents/Golang関連登壇資料の閲覧メモ/x_tools_go_analysisで静的解析ツールを自作する.md)
