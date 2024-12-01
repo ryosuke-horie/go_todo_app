@@ -24,7 +24,16 @@ jobs:
           MYSQL_DATABASE: todo
           MYSQL_USER: todo
           MYSQL_PASSWORD: todo
-
+      redis:
+        image: redis
+        #  Redisが 起動するまでジョブの実行を待機するためのコマンド
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
     steps:
       - name: Setup go
         uses: actions/setup-go@v3
