@@ -14,3 +14,4 @@ TODO Web Application with AUTH By Go.
 ## Documents
 
 - [Golang関連の登壇資料メモ](/_documents/Golang関連登壇資料のメモ/README.md)
+- [mysqldefのインストールについて](/_documents/mysqldefのインストールについて.md)
