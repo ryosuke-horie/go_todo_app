@@ -52,3 +52,9 @@ openssl version
 # ディレクトリを削除
 sudo rm -rf openssl-3.4.0/
 ```
+
+# 鍵生成
+```bash
+ openssl genrsa 4096 > secret.pem
+ openssl rsa -pubout< secret.pem > public.pem
+```
