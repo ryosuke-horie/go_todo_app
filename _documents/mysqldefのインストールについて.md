@@ -8,7 +8,7 @@
   -  `k0kubun/sqldef`が`sqldef/sqldef`になっている
   -  go getで取得してもうまくいかなかった
 
-## 対応
+## 手順(Ubuntu)
 
 バイナリをGitHubから取得してアーカイブを解凍する方法を利用した。
 
