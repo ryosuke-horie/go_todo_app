@@ -37,21 +37,19 @@ type Store interface {
 	Load(ctx context.Context, key string) (entity.UserID, error)
 }
 
-func NewJWTer(s Store) (*JWTer, error) {
+func NewJWTer(s Store, c clock.Clocker) (*JWTer, error) {
 	j := &JWTer{Store: s}
-
-	privateKey, err := parse(rawPrivKey)
+	privkey, err := parse(rawPrivKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: private key: %w", err)
 	}
-
-	pubKey, err := parse(rawPubKey)
+	pubkey, err := parse(rawPubKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: public key: %w", err)
 	}
-
-	j.PrivateKey = privateKey
-	j.PublicKey = pubKey
+	j.PrivateKey = privkey
+	j.PublicKey = pubkey
+	j.Clocker = c
 	return j, nil
 }
 
