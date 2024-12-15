@@ -4,6 +4,7 @@ import (
 	"context"
 	_ "embed"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/google/uuid"
@@ -98,4 +99,28 @@ func (j *JWTer) GenerateToken(ctx context.Context, u entity.User) ([]byte, error
 		return nil, err
 	}
 	return signed, nil
+}
+
+// HTTPリクエストのAuthorizationリクエストヘッダにJWTが付与されていることを想定
+func (j *JWTer) GetToken(ctx context.Context, r *http.Request) (jwt.Token, error) {
+	// HTTPリクエストからJWTである`jwt.Token`インターフェースを満たす型の値を取得
+	token, err := jwt.ParseRequest(
+		r,
+		jwt.WithKey(jwa.RS256, j.PublicKey), // 鍵の指定
+		jwt.WithValidate(false),             // 検証は無視（DIしている*auth.JWTer.Clockerフィールドベースで検証するため）
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := jwt.Validate(token, jwt.WithClock(j.Clocker)); err != nil {
+		return nil, fmt.Errorf("GetToken: failed to validate token: %w", err)
+	}
+
+	// redisから削除して手動でexpireさせていることもありうる
+	if _, err := j.Store.Load(ctx, token.JwtID()); err != nil {
+		return nil, fmt.Errorf("GetToken: %q expired: %w", token.JwtID(), err)
+	}
+
+	return token, nil
 }
